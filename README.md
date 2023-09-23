@@ -25,14 +25,14 @@ Consequences:
 
 ## 3. Basic Commands
 Container has a port that is binded to it, which makes it possible to talk to the applications. Container also has its own abstraction of an operating system including the file system and the environment, different from the host machine. 
-    ```
+
     docker poll redis (docker poll [image])
     docker images
     docker run redis or docker run -d redis
     docker ps
     docker stop [CONTAINER ID]
     docker start [CONTAINER ID]
-    ```
+
 
 To remove a docker image `docker rmi [IMAGE ID or NAME]`. If the image is currently being used by a container, say 'my-app', you have to first delete the container:
 
