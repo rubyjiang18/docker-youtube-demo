@@ -1,0 +1,30 @@
+version: '3'                            # docker-compose version
+services:
+  # my-app:
+  # image: ${docker-registry}/my-app:1.0
+  # ports:
+  # - 3000:3000
+  mongodb:                              # container name (configuration inside)
+    image: mongo 
+    ports:
+      - 27017:27017                     # HOST:CONTAINER
+    environment:                        # environmental variables
+      - MONGO_INITDB_ROOT_USERNAME=admin 
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-data:/data/db            # a mapping between host-volume-name (last line) : path-inside-of-the-container
+                                       # note that the second path is different for each database
+  
+  mongo-express:
+    image: mongo-express
+    restart: always # fixes MongoNetworkError when mongodb is not ready when mongo-express starts
+    ports:
+      - 8080:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+
+volumes:
+  mongo-data:
+    driver: local                     # on host
