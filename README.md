@@ -5,6 +5,7 @@ Check the default notes too.
 Docker is a way to package applications with all necessary dependencies and configuration, which is portable artifact (Docker images) and easily shared and moved around. 
 
 Docker Container is composed of layers of images (mostly Linux Base Image, because of small in size), with application image on top. Contrainer images live in container repository, which could be public (DockerHub) and private. To run a public container locally, for example:
+
     docker run postgres:9.6
 
 To list all docker containers:
@@ -34,41 +35,36 @@ Container has a port that is binded to it, which makes it possible to talk to th
     ```
 
 To remove a docker image `docker rmi [IMAGE ID or NAME]`. If the image is currently being used by a container, say 'my-app', you have to first delete the container:
-    ```
+
     docker ps -a | grep my-app
     docker stop [CONTAINER ID]
     docker rm [CONTAINER ID]
     docker rmi [IMAGE ID]
-    ```
 
 To show all docker containers that are running and stopped `docker ps -a`
 
 To use the containers you started, you need to create binding between a port that your laptop (host machine) has and the container. After that you can connect to the running container using the **port of the host**. Your laptop has only certain ports available, and there will be conflict when use the same port on you host machine for different containers. This is specified in the run command, where 6000 is local port:
-    ```
+
     docker ps
     docker stop [CONTAINER ID]
     docker run -p6000:6379 -d redis
     docker ps
-    ```
 
 To see what logs a container is producing:
-    ```
+
     docker ps
     docker logs [CONTAINER ID] or docker logs [CONTAINER NAME]
-    ```
 
 To specify the name of a container:
-    ```
+
     docker run -p6000:6379 --name redis-older -d redis:4.0
-    ```
 
 To debug the container:
-    ```
+
     docker exec -it [CONTAINER ID or NAME] /bin/bash
     ls
     pwd
     ...
-    ```
 
 ## 4. Practical developing demo with a JS application that uses mongoDB database
 Check README.md for more instructions.
@@ -76,15 +72,16 @@ Check README.md for more instructions.
 4.2 `docker pull mongo-express`
 4.3 Docker Networks `docker network ls`, `docker network create mongo-network`
 4.4 Start mongo 
-    ```docker run -d \
+
+    docker run -d \
             -p 27017:27017 \
             -e MONGO_INITDB_ROOT_USERNAME=admin \
             -e MONGO_INITDB_ROOT_PASSWORD=password \
             --name mongodb \
             --net mongo-network mongo
-    ```
+
 4.5 Start mongo-express
-    ```
+
     docker run -d \
     -p 8081:8081 \
     -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
@@ -92,21 +89,19 @@ Check README.md for more instructions.
     --net mongo-network \
     --name mongo-express \
     -e ME_CONFIG_MONGODB_SERVER=mongodb mongo-express   
-    ```
+
 4.6 Open mongo-express from browser, and create `user-account` _db_ and `users` _collection_ in mongo-express
 
 ## 5. Docker Compose - Running multiple services
 Docker compose lets you to write all the run commands for each container in a structured way. See the `docker-compose.yaml`. Note that Docker Compose takes care of creating a common Network.
 
 To start the containers using docker-compose.yaml:
-    ```
+
     docker-compose -f docker-compose.yaml up
-    ```
 
 To stop all containers, which also removes the network:
-    ```
+
     docker-compose -f docker-compose.yaml down
-    ```
 
 ## 6. Dockerfile - dockerize Node.js app
 This step is to dockerize your own application and deploy it somewhere. Dockerfile is a blueprint for building images. All the commands in Dockerfile will apply to the container environment, and not affect the local host. Except the COPY command, which execute on the host machine (COPY [source] [destination]).
