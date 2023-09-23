@@ -5,13 +5,11 @@ Check the default notes too.
 Docker is a way to package applications with all necessary dependencies and configuration, which is portable artifact (Docker images) and easily shared and moved around. 
 
 Docker Container is composed of layers of images (mostly Linux Base Image, because of small in size), with application image on top. Contrainer images live in container repository, which could be public (DockerHub) and private. To run a public container locally, for example:
-    ```
     docker run postgres:9.6
-    ```
+
 To list all docker containers:
-    ```
+
     docker ps
-    ```
 
 You will see that postgres:9.6 is an image. Docker images are artifacts that can be moved around. Docker container actually starts the application, where the container environment is created. In short, container is a running environment for image.
 
